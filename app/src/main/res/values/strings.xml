@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">SlidingCard</string>
+
+    <string-array name="superStar">
+        <item >明星1</item>
+        <item >明星2</item>
+        <item >明星3</item>
+        <item >明星4</item>
+        <item >明星5</item>
+        <item >明星6</item>
+        <item >明星7</item>
+        <item >明星8</item>
+        <item >明星9</item>
+        <item >明星10</item>
+    </string-array>
+</resources>

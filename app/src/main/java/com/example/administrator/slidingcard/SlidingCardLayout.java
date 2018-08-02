@@ -7,9 +7,11 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.LinearLayout;
+import android.util.Log;
+import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import com.example.administrator.slidingcard.demo.SlideCardBehaivor;
 
 /**
  * Author : xuciluan
@@ -19,8 +21,8 @@ import android.widget.TextView;
  * version : v1.0
  */
 
-@CoordinatorLayout.DefaultBehavior(SlidingCardBehavior.class)
-public class SlidingCardLayout extends LinearLayout {
+@CoordinatorLayout.DefaultBehavior(SlideCardBehaivor.class)
+public class SlidingCardLayout extends FrameLayout {
 
 
     private TextView mHeader;
@@ -41,7 +43,9 @@ public class SlidingCardLayout extends LinearLayout {
         inflate(context, R.layout.view_slidingcardlayout, this);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SlidingCardLayout, defStyleAttr, 0);
         String title = typedArray.getString(R.styleable.SlidingCardLayout_title);
+        int bgColor = typedArray.getInteger(R.styleable.SlidingCardLayout_bgColor,R.color.colorPrimary);
         mHeader = findViewById(R.id.header);
+        mHeader.setBackgroundColor(bgColor);
         rvList = findViewById(R.id.rv_list);
         mHeader.setText(title);
         CharSequence[] textArray = typedArray.getTextArray(R.styleable.SlidingCardLayout_array);
@@ -53,8 +57,9 @@ public class SlidingCardLayout extends LinearLayout {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        mHeaderHeight = mHeader.getMeasuredHeight();
+       // super.onSizeChanged(w, h, oldw, oldh);
+        mHeaderHeight = findViewById(R.id.header).getMeasuredHeight();
+        Log.e("xcl", "onSizeChanged header height is : " +  mHeaderHeight);
     }
 
     public int getHeaderHeight() {

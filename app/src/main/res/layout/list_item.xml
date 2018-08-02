@@ -8,7 +8,7 @@
     app:cardElevation="2dp"
     android:foreground="?android:attr/selectableItemBackground">
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingStart="16dp"

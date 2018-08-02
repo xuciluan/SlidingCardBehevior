@@ -1,22 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.administrator.slidingcard.MainActivity">
+    android:background="#00F5FF">
 
-    <com.example.administrator.slidingcard.SlidingCardLayout
+    <com.example.administrator.slidingcard.demo.SlidingCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:title="测试1"
-        app:array="@array/superStar"
-        />
+        app:card_color="#cc3399"
+        app:card_text="卡片1" />
 
-    <com.example.administrator.slidingcard.SlidingCardLayout
+    <com.example.administrator.slidingcard.demo.SlidingCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:title="测试2"
-        app:array="@array/superStar"/>
+        app:card_color="#99ffcc"
+        app:card_text="卡片2" />
 
-</android.support.design.widget.CoordinatorLayout>
+    <com.example.administrator.slidingcard.demo.SlidingCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:card_color="#33ccff"
+        app:card_text="卡片3" />
+
+    <com.example.administrator.slidingcard.demo.SlidingCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:card_color="#F4A460"
+        app:card_text="卡片4" />
+
+</android.support.design.widget.CoordinatorLayout><!--<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--tools:context="com.example.administrator.slidingcard.MainActivity">-->
+
+    <!--<com.example.administrator.slidingcard.SlidingCardLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--app:title="测试1"--><!--app:array="@array/superStar"--><!--app:bgColor="@color/colorPrimary"--><!--/>-->
+
+    <!--<com.example.administrator.slidingcard.SlidingCardLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--app:title="测试2"--><!--app:array="@array/superStar"--><!--app:bgColor="@color/colorAccent"/>-->
+
+    <!--<com.example.administrator.slidingcard.SlidingCardLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--app:title="测试3"--><!--app:array="@array/superStar"--><!--app:bgColor="@color/colorPrimaryDark"/>-->
+
+    <!--</android.support.design.widget.CoordinatorLayout>-->

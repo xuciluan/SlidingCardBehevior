@@ -3,6 +3,7 @@ package com.example.administrator.slidingcard;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -21,9 +22,10 @@ public class SlidingCardBehavior extends CoordinatorLayout.Behavior<SlidingCardL
     public boolean onMeasureChild(CoordinatorLayout parent, SlidingCardLayout child, int parentWidthMeasureSpec, int widthUsed, int parentHeightMeasureSpec, int heightUsed) {
 
         //高度 = 父亲的给的高度 - header的高度
-        int offset = getChildOffset(parent,child);
+        int offset = getChildOffset(parent, child);
         int heightMeasureSpec = View.MeasureSpec.getSize(parentHeightMeasureSpec) - offset;
-        child.measure(parentWidthMeasureSpec,View.MeasureSpec.makeMeasureSpec(heightMeasureSpec, View.MeasureSpec.EXACTLY));
+        child.measure(parentWidthMeasureSpec, View.MeasureSpec.makeMeasureSpec(heightMeasureSpec, View.MeasureSpec.EXACTLY));
+        Log.e("xcl", "child.measure called");
         return true;
     }
 
@@ -31,10 +33,10 @@ public class SlidingCardBehavior extends CoordinatorLayout.Behavior<SlidingCardL
 
         int offset = 0;
         int childCount = parent.getChildCount();
-        for (int  i= 0 ; i < childCount ; i ++ ){
+        for (int i = 0; i < childCount; i++) {
             View view = parent.getChildAt(i);
-            if (view != child && view instanceof SlidingCardLayout){
-                offset += ((SlidingCardLayout) view) .getHeaderHeight();
+            if (view != child && view instanceof SlidingCardLayout) {
+                offset += ((SlidingCardLayout) view).getHeaderHeight();
             }
         }
         return offset;
@@ -44,10 +46,11 @@ public class SlidingCardBehavior extends CoordinatorLayout.Behavior<SlidingCardL
     @Override
     public boolean onLayoutChild(CoordinatorLayout parent, SlidingCardLayout child, int layoutDirection) {
         //先让父亲摆放好儿子们
-        parent.onLayoutChild(child,layoutDirection);
+        parent.onLayoutChild(child, layoutDirection);
+        Log.e("xcl", "parent.onLayoutChild called");
         //此时它的高度 = 上一个控件的高度 + 上一个控件的Header的高度
-        SlidingCardLayout previous = getPreviousChild(parent,child);
-        if (previous != null){
+        SlidingCardLayout previous = getPreviousChild(parent, child);
+        if (previous != null) {
             int offset = previous.getTop() + previous.getHeaderHeight();
             child.offsetTopAndBottom(offset);
         }
@@ -57,9 +60,9 @@ public class SlidingCardBehavior extends CoordinatorLayout.Behavior<SlidingCardL
 
     private SlidingCardLayout getPreviousChild(CoordinatorLayout parent, SlidingCardLayout child) {
         int index = parent.indexOfChild(child);
-        for (int i = index - 1 ; i >= 0 ; i --){
+        for (int i = index - 1; i >= 0; i--) {
             View view = parent.getChildAt(i);
-            if (view instanceof SlidingCardLayout){
+            if (view instanceof SlidingCardLayout) {
                 return (SlidingCardLayout) view;
             }
         }
@@ -74,10 +77,10 @@ public class SlidingCardBehavior extends CoordinatorLayout.Behavior<SlidingCardL
                                        int axes, int type) {
 
         boolean isVerticle = (axes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
-        return isVerticle && (child == target);
+        return isVerticle && (child == directTargetChild);
     }
 
-    //TODO 去掉看看会发生什么？
+
     @Override
     public void onNestedPreScroll(@NonNull CoordinatorLayout parent, @NonNull SlidingCardLayout child, @NonNull View target, int dx, int dy, @NonNull int[] consumed, int type) {
         //1. 控制自己的移动
@@ -85,8 +88,6 @@ public class SlidingCardBehavior extends CoordinatorLayout.Behavior<SlidingCardL
        consumed[1] = scroll(child, dy, mInitialOffset, mInitialOffset + child.getHeight() - child.getHeaderHeight());
         // 2. 控制自己上边和下边的滑动
         shiftSlidings(consumed[1],parent,child);
-
-
        // super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type);
     }
 
@@ -101,48 +102,48 @@ public class SlidingCardBehavior extends CoordinatorLayout.Behavior<SlidingCardL
     }
 
     private void shiftSlidings(int shift, CoordinatorLayout parent, SlidingCardLayout child) {
-        if (shift == 0){
+        if (shift == 0) {
             return;
         }
 
-        if (shift > 0){
+        if (shift > 0) {
             //向上
             //向下
             //推动下面所有的卡片
             //找到下面所有的卡片
             SlidingCardLayout current = child;
-            SlidingCardLayout card = getPreviousChild(parent,current);
-            while (card != null){
-                int offset = getHeaderOveralap(card,current);
-                card.offsetTopAndBottom(- offset);
+            SlidingCardLayout card = getPreviousChild(parent, current);
+            while (card != null) {
+                int offset = getHeaderOveralap(card, current);
+                card.offsetTopAndBottom(-offset);
                 current = card;
-                card = getPreviousChild(parent,current);
+                card = getPreviousChild(parent, current);
             }
-        }else {
+        } else {
             //向下
             //推动下面所有的卡片
             //找到下面所有的卡片
             SlidingCardLayout current = child;
-            SlidingCardLayout card = getNextChild(parent,current);
-            while (card != null){
-                int offset = getHeaderOveralap(current,card);
+            SlidingCardLayout card = getNextChild(parent, current);
+            while (card != null) {
+                int offset = getHeaderOveralap(current, card);
                 card.offsetTopAndBottom(offset);
                 current = card;
-                card = getNextChild(parent,current);
+                card = getNextChild(parent, current);
             }
         }
     }
 
     private int getHeaderOveralap(SlidingCardLayout above, SlidingCardLayout belw) {
 
-        return above.getTop() + above.getHeaderHeight() -  belw.getTop();
+        return above.getTop() + above.getHeaderHeight() - belw.getTop();
     }
 
     private SlidingCardLayout getNextChild(CoordinatorLayout parent, SlidingCardLayout current) {
         int index = parent.indexOfChild(current);
-        for (int i = index + 1 ; i< parent.getChildCount(); i ++){
+        for (int i = index + 1; i < parent.getChildCount(); i++) {
             View view = parent.getChildAt(i);
-            if (view instanceof SlidingCardLayout){
+            if (view instanceof SlidingCardLayout) {
                 return (SlidingCardLayout) view;
             }
         }
@@ -153,18 +154,18 @@ public class SlidingCardBehavior extends CoordinatorLayout.Behavior<SlidingCardL
     private int scroll(SlidingCardLayout child, int dyUnconsumed, int minOffset, int maxOffset) {
         int initialOffset = child.getTop();
         //dy是负数，此时要向下滑动，是正数，所以要进行相减
-        int offset = clamp(initialOffset - dyUnconsumed,minOffset,maxOffset) - mInitialOffset;
+        int offset = clamp(initialOffset - dyUnconsumed, minOffset, maxOffset) - mInitialOffset;
         child.offsetTopAndBottom(offset);
         return -offset;//负数表示是往下滑动，正数表示向上滑动 ； 此时offset是负数，所以要向上滑动
     }
 
 
-    private int clamp(int i,int minOffset, int maxOffset){
-        if (i > maxOffset){
+    private int clamp(int i, int minOffset, int maxOffset) {
+        if (i > maxOffset) {
             return maxOffset;
-        }else if (i < minOffset){
+        } else if (i < minOffset) {
             return minOffset;
-        }else {
+        } else {
             return i;
         }
     }
